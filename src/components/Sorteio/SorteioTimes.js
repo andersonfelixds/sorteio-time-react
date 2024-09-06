@@ -12,7 +12,7 @@ const SorteioTimes = () => {
             axios.defaults.withCredentials = true;
             setError("");
             const response = await axios.post(
-                "http://app:8989/api/sortear-times",
+                "api/sortear-times",
                 {
                     numero_de_jogadores_por_time: numeroDeJogadores,
                 },

@@ -4,24 +4,24 @@ import Home from "../Home/Home";
 import "./styles.css";
 
 const CadastroJogadores = () => {
-    const [nome, setNome] = useState("");
-    const [nivel, setNivel] = useState(1);
-    const [eGoleiro, setEGoleiro] = useState(false);
+    const [name, setNome] = useState("");
+    const [level, setNivel] = useState(1);
+    const [goalkeeper, setEGoleiro] = useState(false);
     const [mensagem, setMensagem] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.post(
-                "http://localhost:8989/api/players",
+                "api/players",
                 {
-                    nome,
-                    nivel,
-                    eGoleiro,
+                    name,
+                    level,
+                    goalkeeper,
                 },
                 {
                     headers: {
-                        "Content-Type": "application/json",
+                        "Content-Type": "application/json;charset=UTF-8",
                     },
                 }
             );
@@ -45,10 +45,10 @@ const CadastroJogadores = () => {
                 <h1>Cadastro de Jogadores</h1>
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <label>Nome:</label>
+                        <label>Nome:1 </label>
                         <input
                             type="text"
-                            value={nome}
+                            value={name}
                             onChange={(e) => setNome(e.target.value)}
                             required
                         />
@@ -57,7 +57,7 @@ const CadastroJogadores = () => {
                         <label>Nível:</label>
                         <input
                             type="number"
-                            value={nivel}
+                            value={level}
                             onChange={(e) => setNivel(parseInt(e.target.value))}
                             min="1"
                             max="5"
@@ -68,7 +68,7 @@ const CadastroJogadores = () => {
                         <label>É goleiro?</label>
                         <input
                             type="checkbox"
-                            checked={eGoleiro}
+                            checked={goalkeeper}
                             onChange={(e) => setEGoleiro(e.target.checked)}
                         />
                     </div>

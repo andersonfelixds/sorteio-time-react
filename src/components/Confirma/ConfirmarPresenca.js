@@ -8,11 +8,15 @@ const ConfirmarPresenca = () => {
     const [mensagem, setMensagem] = useState("");
 
     useEffect(() => {
-        // Função para carregar a lista de jogadores
+        const token = localStorage.getItem("authToken");
         const loadJogadores = async () => {
             try {
-                const response = await axios.get("api/players");
-                setJogadores(response.data.jogadores);
+                const response = await axios.get("api/players", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setJogadores(response.data);
             } catch (err) {
                 setMensagem(
                     "Erro ao carregar jogadores. Verifique o console para mais detalhes."
@@ -26,12 +30,14 @@ const ConfirmarPresenca = () => {
 
     const handleConfirmarPresenca = async () => {
         try {
+            const token = localStorage.getItem("authToken");
             await axios.post(
-                "/api/players",
+                "/api/players/confirmar-presenca",
                 { presenca },
                 {
                     headers: {
                         "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );
@@ -57,9 +63,7 @@ const ConfirmarPresenca = () => {
             <Home />
             <div>
                 <h1>Confirmar Presença</h1>
-                {jogadores.length === 0 ? (
-                    <p>Carregando jogadores...</p>
-                ) : (
+                {
                     <form onSubmit={(e) => e.preventDefault()}>
                         {jogadores.map((jogador) => (
                             <div key={jogador.id}>
@@ -70,8 +74,8 @@ const ConfirmarPresenca = () => {
                                         onChange={() =>
                                             handleChange(jogador.id)
                                         }
-                                    />
-                                    {jogador.nome}
+                                    />{" "}
+                                    {jogador.name}
                                 </label>
                             </div>
                         ))}
@@ -79,7 +83,7 @@ const ConfirmarPresenca = () => {
                             Confirmar Presença
                         </button>
                     </form>
-                )}
+                }
                 {mensagem && <p>{mensagem}</p>}
             </div>
         </>
